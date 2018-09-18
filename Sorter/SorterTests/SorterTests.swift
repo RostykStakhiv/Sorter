@@ -11,9 +11,15 @@ import XCTest
 
 class SorterTests: XCTestCase {
     
+    let sorter = Sorter()
+    var unsortedArray: [Int] = [Int]()
+        
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        for _ in 0..<10 {
+            unsortedArray.append(Int(arc4random_uniform(50)))
+        }
     }
     
     override func tearDown() {
@@ -21,16 +27,44 @@ class SorterTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testInsertionSort() {
+        let sortedArray = sorter.insertionSort(array: unsortedArray)
+        XCTAssert(isArraySorted(sortedArray), sortedArray.description)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testSelectionSort() {
+        let sortedArray = sorter.selectionSort(array: unsortedArray)
+        XCTAssert(isArraySorted(sortedArray), sortedArray.description)
+    }
+    
+    func testBubbleSort() {
+        let sortedArray = sorter.bubbleSort(array: unsortedArray)
+        XCTAssert(isArraySorted(sortedArray), sortedArray.description)
+    }
+    
+    func testMergeSort() {
+        let sortedArray = sorter.mergeSort(array: unsortedArray)
+        XCTAssert(isArraySorted(sortedArray), sortedArray.description)
+    }
+    
+    func testQuickSort() {
+        var unsortedArrayCopy = Array(unsortedArray)
+        sorter.quickSort(array: &unsortedArrayCopy, start: 0, end: unsortedArrayCopy.count - 1)
+        XCTAssert(isArraySorted(unsortedArrayCopy), unsortedArrayCopy.description)
+    }
+    
+    func testFunc() {
+        sorter.testFunc()
+    }
+    
+    private func isArraySorted<T: Comparable>(_ array: [T]) -> Bool {
+        for i in 0..<array.count - 1 {
+            if array[i] > array[i+1] {
+                return false
+            }
         }
+        
+        return true
     }
     
 }
